@@ -1,0 +1,23 @@
+import React, { useState } from 'react';
+
+const Togglable = (props) => {
+  const [visible, setVisible] = useState(false);
+
+  const hideWhenVisible = { display: visible ? 'none' : '' };
+  const showWhenVisible = { display: visible ? '' : 'none' };
+
+  const toggleVisibility = () => setVisible(!visible);
+
+  return (
+    <div>
+      <button onClick={toggleVisibility} style={hideWhenVisible}>
+        {props.buttonName}
+      </button>
+      <div style={showWhenVisible}>
+        {props.children} <button onClick={toggleVisibility}>Close</button>
+      </div>
+    </div>
+  );
+};
+
+export default Togglable;
