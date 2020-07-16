@@ -1,25 +1,38 @@
 import React, { useState } from 'react';
 
 const CategoryForm = ({ addCategory }) => {
-  const [cateogry, setCategory] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   const onAddCategory = (e) => {
     e.preventDefault();
 
-    addCategory(cateogry);
+    addCategory({ name, description });
 
-    setCategory('');
+    setName('');
+    setDescription('');
   };
 
   return (
     <div>
+      <h2>Add Category</h2>
       <form onSubmit={onAddCategory}>
-        <label htmlFor="category">Category</label>
-        <input
-          id="category"
-          value={cateogry}
-          onChange={(e) => setCategory(e.target.value)}
-        />
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="category"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="category"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
         <button>Add</button>
       </form>
     </div>

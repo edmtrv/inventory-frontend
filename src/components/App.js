@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Togglable from './Togglable';
 import CategoryForm from './CategoryForm';
-// import categoryService from '../services/categories';
+import CategoriesList from './CategoriesList';
+import categoryService from '../services/categories';
 
 const App = () => {
-  const handleAddCategory = (categoryName) => {
-    console.log('category added:', categoryName);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      const result = await categoryService.getAll();
+      setCategories(result.data.categories);
+    };
+
+    loadCategories();
+  }, []);
+
+  const handleAddCategory = (category) => {
+    console.log('category added:', category);
+    categoryService.create(category);
+  };
+
+  const handleSelectCategory = (category) => {
+    console.log(category);
   };
 
   return (
@@ -14,6 +31,10 @@ const App = () => {
       <Togglable buttonName="Add Category">
         <CategoryForm addCategory={handleAddCategory} />
       </Togglable>
+      <CategoriesList
+        categories={categories}
+        selectCategory={handleSelectCategory}
+      />
     </div>
   );
 };
