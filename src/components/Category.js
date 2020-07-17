@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ProductList from './ProductsList';
+import ProductsTable from './ProductsTable';
 
 const Category = ({ category }) => {
   const [visible, setVisible] = useState(false);
@@ -11,7 +11,7 @@ const Category = ({ category }) => {
       <button onClick={() => setVisible(!visible)}>
         {visible ? 'Hide' : 'Show'}
       </button>
-      <ProductList
+      <ProductsTable
         display={visible ? 'block' : 'none'}
         products={category.products}
       />
