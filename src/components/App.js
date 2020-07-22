@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Togglable from './Togglable';
 import CategoryForm from './CategoryForm';
 import CategoriesList from './CategoriesList';
+import LoginForm from './LoginForm';
 import categoryService from '../services/categories';
+import loginService from '../services/login';
 
 const App = () => {
   const [categories, setCategories] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -16,27 +19,51 @@ const App = () => {
     loadCategories();
   }, []);
 
-  const handleAddCategory = (category) => {
-    console.log('category added:', category);
-    categoryService.create(category);
+  const handleLogin = async (loginData) => {
+    try {
+      const user = await loginService.login(loginData);
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user));
+      categoryService.setToken(user.token);
+      setUser(user);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleAddCategory = async (categoryData) => {
+    try {
+      const result = await categoryService.create(categoryData);
+
+      setCategories(categories.concat(result.data.category));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleSelectCategory = (category) => {
     console.log(category);
   };
 
-  return (
-    <div>
-      <h1>Inventory App</h1>
-      <Togglable buttonName="Add Category">
-        <CategoryForm addCategory={handleAddCategory} />
-      </Togglable>
-      <CategoriesList
-        categories={categories}
-        selectCategory={handleSelectCategory}
-      />
-    </div>
-  );
+  if (user === null) {
+    return (
+      <div>
+        <LoginForm userLogin={handleLogin} />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <h1>Inventory App</h1>
+        <Togglable buttonName="Add Category">
+          <CategoryForm addCategory={handleAddCategory} />
+        </Togglable>
+        <CategoriesList
+          categories={categories}
+          selectCategory={handleSelectCategory}
+        />
+      </div>
+    );
+  }
 };
 
 export default App;
