@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Togglable from './Togglable';
 import CategoryForm from './CategoryForm';
-import CategoriesList from './CategoriesList';
+import CategoryList from './CategoryList';
 import LoginForm from './LoginForm';
 import categoryService from '../services/categories';
+import productService from '../services/products';
 import loginService from '../services/login';
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
       const user = await loginService.login(loginData);
       window.localStorage.setItem('loggedInUser', JSON.stringify(user));
       categoryService.setToken(user.token);
+      productService.setToken(user.token);
       setUser(user);
     } catch (err) {
       console.log(err);
@@ -57,7 +59,7 @@ const App = () => {
         <Togglable buttonName="Add Category">
           <CategoryForm addCategory={handleAddCategory} />
         </Togglable>
-        <CategoriesList
+        <CategoryList
           categories={categories}
           selectCategory={handleSelectCategory}
         />
