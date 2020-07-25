@@ -22,4 +22,13 @@ const create = async (newCategory) => {
   return response.data;
 };
 
-export default { setToken, getAll, create };
+const remove = async (categoryId) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const response = await axios.delete(`${baseUrl}/${categoryId}`, config);
+  return response.data;
+};
+
+export default { setToken, getAll, create, remove };

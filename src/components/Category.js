@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import ProductTable from './ProductTable';
 import productService from '../services/products';
 
-const Category = ({ category }) => {
+const Category = ({ category, removeCategory }) => {
   const [visible, setVisible] = useState(false);
   const [products, setProducts] = useState(category.products);
+
+  const confirmRemove = () => {
+    if (window.confirm(`Delete category: ${category.name}`)) {
+      removeCategory(category.id);
+    }
+  };
 
   const handleAddProduct = async (productData) => {
     try {
@@ -40,6 +46,7 @@ const Category = ({ category }) => {
         addProduct={handleAddProduct}
         removeProduct={handleRemoveProduct}
       />
+      <button onClick={confirmRemove}>Delete Category</button>
     </div>
   );
 };

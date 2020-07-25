@@ -42,8 +42,13 @@ const App = () => {
     }
   };
 
-  const handleSelectCategory = (category) => {
-    console.log(category);
+  const handleRemoveCategory = async (categoryId) => {
+    try {
+      await categoryService.remove(categoryId);
+      setCategories(categories.filter((cat) => cat.id !== categoryId));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (user === null) {
@@ -61,7 +66,7 @@ const App = () => {
         </Togglable>
         <CategoryList
           categories={categories}
-          selectCategory={handleSelectCategory}
+          removeCategory={handleRemoveCategory}
         />
       </div>
     );
