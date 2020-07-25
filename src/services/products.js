@@ -17,4 +17,13 @@ const create = async (newProduct) => {
   return response.data;
 };
 
-export default { create, setToken };
+const remove = async (productId) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const response = await axios.delete(`${baseUrl}/${productId}`, config);
+  return response.data;
+};
+
+export default { create, remove, setToken };

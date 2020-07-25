@@ -18,6 +18,15 @@ const Category = ({ category }) => {
     }
   };
 
+  const handleRemoveProduct = async (productId) => {
+    try {
+      await productService.remove(productId);
+      setProducts(products.filter((p) => p.id !== productId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
       <h4>{category.name}</h4>
@@ -29,6 +38,7 @@ const Category = ({ category }) => {
         display={visible ? 'block' : 'none'}
         products={products}
         addProduct={handleAddProduct}
+        removeProduct={handleRemoveProduct}
       />
     </div>
   );

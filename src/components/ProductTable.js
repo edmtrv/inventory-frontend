@@ -3,7 +3,7 @@ import Product from './Product';
 import Togglable from './Togglable';
 import ProductForm from './ProductForm';
 
-const ProductTable = ({ products, addProduct, display }) => {
+const ProductTable = ({ products, addProduct, display, removeProduct }) => {
   if (products.length > 0) {
     return (
       <div style={{ display }}>
@@ -18,7 +18,7 @@ const ProductTable = ({ products, addProduct, display }) => {
           </thead>
           <tbody>
             {products.map((p) => (
-              <Product key={p.id} product={p} />
+              <Product key={p.id} product={p} removeProduct={removeProduct} />
             ))}
           </tbody>
         </table>
