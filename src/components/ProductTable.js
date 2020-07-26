@@ -3,7 +3,19 @@ import Product from './Product';
 import Togglable from './Togglable';
 import ProductForm from './ProductForm';
 
-const ProductTable = ({ products, addProduct, display, removeProduct }) => {
+const ProductTable = ({
+  products,
+  addProduct,
+  display,
+  removeProduct,
+  productFormRef,
+}) => {
+  const productDiv = (
+    <Togglable buttonName="Add Product" ref={productFormRef}>
+      <ProductForm addProduct={addProduct} />
+    </Togglable>
+  );
+
   if (products.length > 0) {
     return (
       <div style={{ display }}>
@@ -22,18 +34,14 @@ const ProductTable = ({ products, addProduct, display, removeProduct }) => {
             ))}
           </tbody>
         </table>
-        <Togglable buttonName="Add Product">
-          <ProductForm addProduct={addProduct} />
-        </Togglable>
+        {productDiv}
       </div>
     );
   } else {
     return (
       <div style={{ display }}>
         No Products
-        <Togglable buttonName="Add Product">
-          <ProductForm addProduct={addProduct} />
-        </Togglable>
+        {productDiv}
       </div>
     );
   }
